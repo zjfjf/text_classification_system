@@ -41,7 +41,7 @@ class lr(object):
     def __do_pred(self,param):
         preddata=data(None).load(param['data'])
         clf = LogisticRegression(solver='lbfgs', multi_class = 'multinomial', max_iter=50)
-        clf.fit(testdata['traintfidfbunch'].tdm, testdata['traintfidfbunch'].labels)
+        clf.fit(preddata['traintfidfbunch'].tdm, preddata['traintfidfbunch'].labels)
         y_pred = clf.predict(preddata['predtfidfbunch'].tdm)
         label=[]
         for i in range(len(y_pred)):
