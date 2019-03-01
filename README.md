@@ -4,7 +4,7 @@ application of basic algorithmic model of cnn,nb and lr
 学习设计基于循环卷积网络，朴素贝叶斯，逻辑回归算法模型的文本分类系统
 ### 1.参考：
 https://github.com/gaussic/text-classification-cnn-rnn 及所提及资料<br>	
-[wxid_b8lmlv1vdb2|322](/tc/old20190213) 提供相关数据及程序素材
+[wxid_b8lmlv1vdb2|322](/tc_all/old20190213) 提供相关数据及程序素材
 ### 2.大致分为三个模块：数据提供模块，数据处理模块，数据显示模块
 |name|type|location|function|
 |--|--|--|--|
