@@ -1,0 +1,84 @@
+
+
+
+程序结构
+	大致分为三个模块：数据提供模块，数据处理模块，数据显示模块
+		tool：		  工具类			所在文件/模块tc_tool			 提供辅助/扩展方法
+		datatype： 数据接口类	所在文件/模块tc_datatype	 提供数据结构，数据协议，规范数据交互
+		data：		  数据类			所在文件/模块tc_data			 提供数据
+		cnn：		  算法类			所在文件/模块tc_cnn			 卷积神经网络算法
+		nb：			  算法类			所在文件/模块tc_nb			 朴素贝叶斯算法
+		lr：             算法类			所在文件/模块tc_lr				 逻辑回归算法
+		ui：			  界面类			所在文件/模块tc_ui				 提供用户接口
+	data类：
+		__init__(self,config):	提供全局配置参数config		尚未使用，后期可扩展使用		
+		load(self,param):			数据生成，加载					外部接口						
+											param数据结构					algorithmtype					cnn
+											algorithmtype															nb	
+											worktype																	lr
+											category							worktype							train		
+											path																			test	
+											pos																			predict
+																					path									train/trainfile					train.txt							训练数据																					文本内容ex：IT\t广州国际邮件通关提速首推“在线清关服务”
+											bunch								 										trainmid/trainmidfile			trainmid.txt						中间数据，由train产生
+											tfidf																																								jieba.cut(train)/jieba.posseg.cut(train)-stopword-space+-		文本内容ex:  IT\t广州,国际,邮件,通关,提速,首推,清关,服务
+																															traindat/trainbunch			train.dat							[nb,lr]中间词库，由trainmid产生													?
+											max_length																traintf/traintfidfbunch		traintfidf.dat					[nb,lr]r最终词库，由traindat产生													?
+											word2vec																	val/valfile							val.txt								[cnn]验证数据																			文本内容同train
+																															valmid/valmidfile				valmid.txt							[cnn]验证中间数据，由val产生														文本内容同trainmid
+																															test/testfile						test.txt							测试数据																					文本内容同train
+																															testmid/testmidfile			testmid.txt						中间测试数据，由test产生															文本内容同trainmid
+																															testdat/testbunch			test.dat							[nb,lr]中间词库，由testmid产生													文本内容同traindat
+																															testtf/testtfidfbunch		testtfidf.dat						[nb,lr]最终词库，由testdat+traintf产生										文本内容同traintfidf
+																															pred/predfile					pred.txt/[pred]				预测数据																					文本内容ex：广州国际邮件通关提速首推“在线清关服务”
+																															predmid/predmidfile			predmid.txt/[predmid]		中间预测数据，由pred产生															文本内容ex：广州,国际,邮件,通关,提速,首推,清关,服务
+																															preddat/predbunch			pred.dat							[nb,lr]中间词库，由predmid产生													文本内容同traindat
+																															predtf/predtfidfbunch		predtfidf.dat					[nb,lr]最终词库，由preddat+traintf产生										文本内容同traintfidf
+																															stop/stopwordfile			stopword.txt					用于过滤词组																				文本内容ex：(\n
+																															wv/wvfile							wv.txt								[cnn]词-向量，由trainmid产生													
+																																																			gensim.models.word2vec.Word2Vec([trainmid])						文本内容ex：64994 200\n优惠 0.06281079 0.076767676 -0.286093...										
+																															word/wv_wordfile			wv_word.txt					[cnn]词，由wv产生																	文本内容ex：<PAD>\n优惠\n现车...
+																															vector/wv_vectorfile		wv_vector.txt					[cnn]向量，由wv和word产生														文本内容ex：[[0.06281079...]]
+																															！best								best_validation				[cnn]训练模型保存名前缀																
+																																																			与wv，vector强相关																	文件ex：best_validation.data-00000-of-00001，best_validation.index，best_validation.meta，checkpoint
+																															！board							tensorboard					[cnn]训练模型summary保存文件													文件ex：events.out.tfevents.1551176202.DESKTOP-R32L683
+																					pos									True																			jieba.posseg.cut(train)
+																															False																		jieba.cut(train)
+																					category							['IT', '体育', '军事', '娱乐', '文化', '时政', '汽车', '金融']		
+																					！[nb,lr]							bunch				尚未使用，Bunch([bunch])					[nb,lr]函数参数																			参数ex：target_name=[], labels=[],  contents=[]
+																															tfidf					尚未使用，TfidfVectorizer([tfidf])		[nb,lr]函数参数																			参数ex：token_pattern=r"(?u)\b\w+\b",stop_words=sw, sublinear_tf=True, max_df=0.8,min_df=0
+																					！[cnn]								max_length																[cnn]函数参数，矩阵维度，<=config['seq_length']
+																															word2vec																	[cnn]函数参数																	        参数ex：wordlist, sg=1,hs=1,size=200, window=1, min_count=5, sample=0.001, negative=5, workers=4
+										返回数据类型							trainXYid_table				x_train,y_trian				len(trainmid)*max_length&1    [cnn]trainmid+word+id+pad，trainmid+label+id+pad		?
+																					testXYid_table					x_test,y_test				len(testmid)*max_length&1     [cnn]testmid+word+id+pad，testmid+label+id+pad			?
+																					！predXid_table				x_pred,y_pred				len(predmid)*max_length&1    [cnn]predmid+word+id+pad，predmid+label+id+pad		?
+																					valXYid_table					x_val,y_val					len(valmid)*max_length&1       [cnn]valmid+word+id+pad，valmid+label+id+pad				?
+																					wv_word_size					len(word)															    	[cnn]word																				文本内容同word
+																					wv_vector_table				vector->['embeddings']											[cnn]vector																				文本内容同vector
+																					traintfidfbunch					traintf																		[nb,lr]																						文本内容同traintfidf
+																					testtfidfbunch					testtf															    		[nb,lr]																						文本内容同traintfidf
+																					predtfidfbunch					predtf															    		[nb,lr]																						文本内容同traintfidf
+																					
+后期维护主要工作：																									
+	优化设计，提高性能，体验更"优雅"，
+		内聚耦合度，可维护性，可扩展性
+		时间空间复杂度
+		变量名方法名相关数据接口设计可读性，统一性
+		类及方法体量可观性
+		各个模块间，类间，方法间逻辑清晰度，分配合理性
+		使用消息队列沟通UI模块与数据模块，实现操作细节显示
+		使用并发机制，减小线程对全局变量影响，实现多任务独立运行
+		设计实现前后端分离
+		
+		
+		重新设计UI结构，寻找/构造高级UI组件,实现复杂数据结构显示，满足数据report可视化需要
+		调整各算法参数，使其性能最佳
+	
+	
+	
+	
+	
+	
+	
+	
+	
