@@ -1,6 +1,6 @@
 # text_classification_system
 application of basic algorithmic model of cnn,nb and lr
-## 20190301 
+## 20190301-03
 学习设计基于循环卷积网络，朴素贝叶斯，逻辑回归算法模型的文本分类系统
 ### 1.参考：
 https://github.com/gaussic/text-classification-cnn-rnn 及所提及资料<br>	
@@ -15,6 +15,7 @@ https://github.com/gaussic/text-classification-cnn-rnn 及所提及资料<br>
 |nb|算法类|所在文件/模块tc_nb|朴素贝叶斯算法|
 |lr|算法类|所在文件/模块tc_lr|逻辑回归算法|
 |ui|界面类|所在文件/模块tc_ui|提供用户接口|
+|main|入口模块|所在文件/模块tc_main|提供程序入口|
 ### 3.环境：
 * Windows10
 * Python 3.6.6
@@ -25,7 +26,7 @@ https://github.com/gaussic/text-classification-cnn-rnn 及所提及资料<br>
 * matplotlib 3.0.2
 ### 后续添加详细说明  
 ### 其它：  
-`程序设计过于“简陋”，接下来主要工作：`:-1::rage:
+`程序设计过于“简陋”，接下来会进行“颠覆性”重构，或者重新设计：`:rage:
 * 注意内聚耦合度，可维护性，可扩展性
 * 优化时间空间复杂度，提高性能
 * 提高变量名方法名相关数据接口设计可读性，统一性
@@ -33,6 +34,7 @@ https://github.com/gaussic/text-classification-cnn-rnn 及所提及资料<br>
 * 提高各个模块间，类间，方法间逻辑清晰度，分配合理性
 * 使用消息队列沟通UI模块与数据模块，实现操作细节显示
 * 使用并发机制，实现多任务独立安全运行
+* 使用异常机制
 * 设计实现前后端分离		
 * 重新设计UI结构，寻找/构造高级UI组件,实现复杂数据结构显示，满足数据report可视化需要
 * 调整各算法参数，使其性能最佳
