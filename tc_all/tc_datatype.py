@@ -104,6 +104,8 @@ ex_categoriy={
                 '汽车':'car',
                 '金融':'finance'}
 
+ex_algorithms=[('卷积神经网络', 'cnn'), ('朴素贝叶斯', 'nb'), ('逻辑回归', 'lr'),('None', 'no')]
+
 ex_evaluatitem=['precision','recall','f1-score','support']
 
 ex_statisticsitem=['micro avg','macro avg','weighted avg ']
