@@ -4,6 +4,7 @@ import time
 import threading
 import tkinter as tk
 from tkinter import ttk
+import math
 from tc_nb import *
 from tc_lr import *
 from tc_cnn import *
@@ -18,12 +19,11 @@ from collections import  Counter
 
 class ui(tk.Frame):
     
-    def __init__(self, master=None):
+    def __init__(self, master=None):        
+        super().__init__(master)        
+        self.filenames={}
         self.worktype=worktype.pend
         self.algorithmtype=algorithmtype.pend
-        self.filenames={}
-        
-        super().__init__(master)        
         self.__initcomponent(master)
         
     def __initcomponent(self,master):
@@ -159,7 +159,16 @@ class ui(tk.Frame):
                 continue
             self.tree.delete(i)
         self.__deletetext(False)
+
         
+        self.algorithmtype=algorithmtype.nb
+        self.filenames=ex_test_file_name
+        operatefile='D:\DocuemtManagement\VSproject\Python_Proj\Py.Basic\Text_Categorization_JF\data_n\\6\\'
+        if operatefile != '':
+            for k,v in self.filenames.items():
+                self.filenames[k]=os.path.join(operatefile,v).replace('/','\\')
+                self.__log(self.filenames[k],os.path.basename(self.filenames[k]),'配置')
+                
     def __interruptcallback(self):
         self.worktype=worktype.pend
         self.__log('','{}--{}'.format(self.algorithmtype,self.worktype),'中断')
@@ -242,42 +251,65 @@ class ui(tk.Frame):
                 labelmtx.append(ex_categoriy[k])          
             labelrep.extend(ex_statisticsitem)
             rlt=self.__foramt_reportdata(result[0])
-            rowlabel=[labelrep,labelmtx]
-            collabel=[ex_evaluatitem,labelmtx]
-            table=[rlt,result[1]]
-            self.master.bind('<<show>>', lambda evt:self.__data_show_table(rowlabel,collabel,table))
-            self.__thread_callback(self.__show)            
+            self.master.bind('<<show>>', lambda evt:self.__data_show_histogram(labelmtx,labelmtx,result[1]))
+            self.__thread_callback(self.__show)
+            self.master.bind('<<show>>', lambda evt:self.__data_show_histogram(labelrep,ex_evaluatitem,rlt))
+            self.__thread_callback(self.__show)
         elif param['data']['worktype']==worktype.predict:
             result=Counter(result)
             label,num=zip(*result.most_common(len(result)))
-            self.__thread_callback(self.__data_show_pie,'statistics',label,num)
+            labels=[ex_categoriy[item] for item in label]
+            self.master.bind('<<show>>', lambda evt:self.__data_show_pie(labels,num))
+            self.__thread_callback(self.__show)
             
     def __show(self):
-            self.master.event_generate('<<show>>', when = "tail")
+        self.master.event_generate('<<show>>', when = "tail")
              
-    def __data_show_pie(self,name,labels,num):
-        labels=[ex_categoriy[item] for item in labels]
+    def __data_show_pie(self,labels,num):
         fig = plt.figure()
         plt.pie(num,labels=labels,autopct='%1.2f%%')
-        plt.title(name)
         plt.show()
 
-    def __data_show_table(self,row_labels,col_labels,table_vals):
-        plt.figure()
-        row_colors = ex_colors[:len(row_labels[0])]
-        col_colors=ex_colors[:(len(col_labels[0]))]
-        tb1=plt.table(cellText=table_vals[0], colWidths=[0.1]*len(col_labels[0]),
-                             rowLabels=row_labels[0], colLabels=col_labels[0],
-                             rowColours=row_colors, colColours=col_colors,
-                             loc='best')
-        plt.figure()
-        row_colors = ex_colors[:len(row_labels[1])]
-        col_colors = ex_colors[:(len(col_labels[1]))]
-        tb2=plt.table(cellText=table_vals[1], colWidths=[0.1]*len(col_labels[1]),
-                             rowLabels=row_labels[1], colLabels=col_labels[1],
-                             rowColours=row_colors, colColours=col_colors,
-                             loc='best')
+    def __data_show_histogram(self,rows,cols,table):
+        fig = plt.figure()
+        if len(rows)>=10:
+            table=[list(x) for x in table]
+            table=[x[:3] for x in table]
+            X = np.arange(len(cols)-1)+1
+        else:
+            X = np.arange(len(cols))+1
+        aim_color=ex_colors[:len(rows)]        
+        ax = fig.add_subplot(111)
+        ax.set_xticks(range(len(rows)+1))
+        cols.insert(0, '')
+        ax.set_xticklabels(cols,rotation=30)        
+        bars=[]
+        max_=self.__get_max(table)
+        division=self.__get_division(max_)
+        for i in range(len(table)):
+            bar=plt.bar(X+0.05*i,table[i],width = 0.05,facecolor = aim_color[i],edgecolor = 'white')
+            bars.append(bar)
+            for j in range(len(table[i])):
+                plt.text(X[j]+0.05*i, division*i+0.05, '%.2f' % float(table[i][j]), ha='center', va= 'bottom',fontsize=7)
+        axlabel=rows if len(rows)>=10 else rows[1:]
+        ax.legend(bars,axlabel, fontsize=7)        
+        plt.ylim(0,max_+1)
         plt.show()
+
+    def __get_division(self,num):
+        num_=len(str(num).split('.')[0])
+        if num_<=1:
+            return 0.05
+        else:
+            return math.pow(10,num_ - 2)
+        
+    def __get_max(self,data):
+        max_=0.0
+        for i in data:
+            dl=[float(x) for x in i]
+            if max_<max(dl):
+                max_=max(dl)
+        return max_    
         
     def __foramt_reportdata(self,report):
         report=report.split('\n')
@@ -288,7 +320,7 @@ class ui(tk.Frame):
         for i in range(len(report)):
             if i in aimnm[0]:rp.append(report[i][1:])
             elif i in aimnm[1]:rp.append(report[i][2:])
-        return rp
+        return [map(float,i) for i in rp]
     
 if(__name__=='__main__'):
     root = tk.Tk()
