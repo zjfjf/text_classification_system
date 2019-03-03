@@ -4,7 +4,7 @@ application of basic algorithmic model of cnn,nb and lr
 学习设计基于循环卷积网络，朴素贝叶斯，逻辑回归算法模型的文本分类系统
 ### 1.参考：
 https://github.com/gaussic/text-classification-cnn-rnn 及所提及资料<br>	
-[wxid_b8lmlv1vdb2|322](/tc_all/old20190213) 提供相关数据及程序素材
+[wxid_b8lmlv1vdb2|322](https://github.com/zjfjf/text_classification_system/blob/master/tc_all/old20190213) 提供相关数据及程序素材
 ### 2.大致分为三个模块：数据提供模块，数据处理模块，数据显示模块
 |name|type|location|function|
 |--|--|--|--|
@@ -26,19 +26,31 @@ https://github.com/gaussic/text-classification-cnn-rnn 及所提及资料<br>
 * matplotlib 3.0.2
 ### 后续添加详细说明  
 ### 4.功能：
-* 循环卷积神经网络
-[测试](/tc_all/data/example/ex_cnn_test_mtx.png) 
-[测试](/tc_all/data/example/ex_cnn_test_report.png) 
-[预测](/tc_all/data/example/ex_cnn_pred.png) 	
-[预测log](/tc_all/data/example/ex_cnn_pred_log.png) 	
-* 贝叶斯
-[测试(precision-recall-F1-score)](/tc_all/data/example/ex_nb_test_mtx.png) 
-[测试(confusion matrix)](/tc_all/data/example/ex_nb_test_report.png) 
-[预测](/tc_all/data/example/ex_nb_pred.png) 	
-[预测日志log](/tc_all/data/example/ex_nb_pred_log.png) 	
-* 逻辑回归
-[测试](/tc_all/data/example/ex_lr_test_mtx.png) 
-[测试](/tc_all/data/example/ex_lr_test_report.png) 
-[预测](/tc_all/data/example/ex_lr_pred.png) 	
-[预测log](/tc_all/data/example/ex_lr_pred_log.png) 	
+* 循环卷积神经网络<br>
+  * 测试(precision-recall-F1-score)<br>
+![](https://github.com/zjfjf/text_classification_system/blob/master/tc_all/data/example/ex_cnn_test_mtx.png "测试(precision-recall-F1-score)")<br>
+  * 测试(confusion matrix)<br>
+![](https://github.com/zjfjf/text_classification_system/blob/master/tc_all/data/example/ex_cnn_test_report.png "测试(confusion matrix)")<br>
+  * 预测(proportion)<br>
+![](https://github.com/zjfjf/text_classification_system/blob/master/tc_all/data/example/ex_cnn_pred.png "预测(proportion)") <br>
+  * 预测(log)<br>
+![](https://github.com/zjfjf/text_classification_system/blob/master/tc_all/data/example/ex_cnn_pred_log.PNG "预测(log)")<br>	
+* 贝叶斯<br>
+  * 测试(precision-recall-F1-score)<br>
+![](https://github.com/zjfjf/text_classification_system/blob/master/tc_all/data/example//ex_nb_test_mtx.png "测试(precision-recall-F1-score)")<br>
+  * 测试(confusion matrix)e<br>
+![](https://github.com/zjfjf/text_classification_system/blob/master/tc_all/data/example/ex_nb_test_report.png "测试(confusion matrix)")<br>
+  * 预测(proportion)<br>
+![](https://github.com/zjfjf/text_classification_system/blob/master/tc_all/data/example/ex_nb_pred.png "预测(proportion)")<br>
+  * 预测(log)<br>
+![](https://github.com/zjfjf/text_classification_system/blob/master/tc_all/data/example/ex_nb_pred_log.PNG "预测(log)")<br>	
+* 逻辑回归<br>
+  * 测试(precision-recall-F1-score<br>
+![](https://github.com/zjfjf/text_classification_system/blob/master/tc_all/data/example/ex_lr_test_mtx.png "测试(precision-recall-F1-score)")<br>
+  * 测试(confusion matrix)
+![](https://github.com/zjfjf/text_classification_system/blob/master/tc_all/data/example/ex_lr_test_report.png "测试(confusion matrix)")<br>
+  * 预测(proportion)<br>
+![](https://github.com/zjfjf/text_classification_system/blob/master/tc_all/data/example/ex_lr_pred.png "预测(proportion)")<br>
+  * 预测(log)<br>
+![](https://github.com/zjfjf/text_classification_system/blob/master/tc_all/data/example/ex_lr_pred_log.PNG "预测(log)")<br>
 
