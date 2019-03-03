@@ -23,9 +23,8 @@ https://github.com/gaussic/text-classification-cnn-rnn 及所提及资料<br>
 * jieba 0.39
 * numpy 1.16.1
 * tensorflow 1.12.0
-* matplotlib 3.0.2
-### 后续添加详细说明  
-### 4.功能：
+* matplotlib 3.0.2 
+### 4.功能效果：
 * 循环卷积神经网络<br>
   * 测试(precision-recall-F1-score)<br>
 ![](https://github.com/zjfjf/text_classification_system/blob/master/tc_all/data/example/ex_cnn_test_mtx.png "测试(precision-recall-F1-score)")<br>
@@ -45,9 +44,9 @@ https://github.com/gaussic/text-classification-cnn-rnn 及所提及资料<br>
   * 预测(log)<br>
 ![](https://github.com/zjfjf/text_classification_system/blob/master/tc_all/data/example/ex_nb_pred_log.PNG "预测(log)")<br>	
 * 逻辑回归<br>
-  * 测试(precision-recall-F1-score<br>
+  * 测试(precision-recall-F1-score)<br>
 ![](https://github.com/zjfjf/text_classification_system/blob/master/tc_all/data/example/ex_lr_test_mtx.png "测试(precision-recall-F1-score)")<br>
-  * 测试(confusion matrix)
+  * 测试(confusion matrix)<br>
 ![](https://github.com/zjfjf/text_classification_system/blob/master/tc_all/data/example/ex_lr_test_report.png "测试(confusion matrix)")<br>
   * 预测(proportion)<br>
 ![](https://github.com/zjfjf/text_classification_system/blob/master/tc_all/data/example/ex_lr_pred.png "预测(proportion)")<br>
