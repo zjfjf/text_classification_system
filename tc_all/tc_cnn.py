@@ -1,6 +1,10 @@
 #!/usr/bin/python
 #encoding:utf-8
-
+'''
+@Time   : 2019/3/03
+@Trimmer: ZJF
+@File   : tc_cnn.py
+'''
 import tensorflow.contrib.slim as slim
 import tensorflow.contrib.keras as kr
 import tensorflow as tf
@@ -17,11 +21,23 @@ from tc_data import *
 from tc_tool import *
 
 class cnn(object):
+    '''
+    '''
     
     def __init__(self,config):
+        '''
+        args:
+        returns:    
+        raises:
+        '''
         self.config=config
 
     def run(self,param):
+        '''
+        args:
+        returns:    
+        raises:
+        '''
         if param['data']['worktype']==worktype.train:
             return self.__do_trian(param)
         elif param['data']['worktype']==worktype.test:
@@ -31,6 +47,11 @@ class cnn(object):
 
 ###############################
     def __do_trian(self,param):
+        '''
+        args:
+        returns:    
+        raises:
+        '''
         dt=data(None).load(param['data'])
         self.config['vocab_size']=dt['wv_word_size']
         self.config['pre_trianing']=dt['wv_vector_table']
@@ -81,6 +102,11 @@ class cnn(object):
         return global_step, train_summaries, train_loss, train_accuracy
 
     def __do_test(self,param):
+        '''
+        args:
+        returns:    
+        raises:
+        '''
         dt=data(None).load(param['data'])        
         self.config['vocab_size']=dt['wv_word_size']
         self.config['pre_trianing']=dt['wv_vector_table']
@@ -110,6 +136,11 @@ class cnn(object):
         return report,mtx
             
     def __do_pred(self,param):
+        '''
+        args:
+        returns:    
+        raises:
+        '''
         dt=data(None).load(param['data'])        
         self.config['vocab_size']=dt['wv_word_size']
         self.config['pre_trianing']=dt['wv_vector_table']
@@ -131,6 +162,11 @@ class cnn(object):
 
 ###############################
     def __init_param(self):
+        '''
+        args:
+        returns:    
+        raises:
+        '''
         self.__set_input_x()
         self.__set_input_y()
         self.__set_keep_prob()
@@ -145,6 +181,11 @@ class cnn(object):
         self.__set_optimizer()
         
     def __evaluate(self,sess, x_, y_):
+        '''
+        args:
+        returns:    
+        raises:
+        '''
         data_len = len(x_)
         batch_eval = tool.batch_iter(x_, y_, 128)
         total_loss = 0.0
@@ -163,6 +204,11 @@ class cnn(object):
 #input_x
 #
     def __set_input_x(self):
+        '''
+        args:
+        returns:    
+        raises:
+        '''
         self.input_x=tf.placeholder(tf.int32,shape=[None,self.config['seq_length']],name='input_x')
         return self.input_x
 
@@ -171,6 +217,11 @@ class cnn(object):
 #input_y
 #
     def __set_input_y(self):
+        '''
+        args:
+        returns:    
+        raises:
+        '''
         self.input_y=tf.placeholder(tf.float32,shape=[None,self.config['num_classes']],name='input_y')
         return self.input_y
 
@@ -179,6 +230,11 @@ class cnn(object):
 #keep_prob
 # 
     def __set_keep_prob(self):
+        '''
+        args:
+        returns:    
+        raises:
+        '''
         self.keep_prob=tf.placeholder(tf.float32,name='dropout')
         return self.keep_prob
 
@@ -187,6 +243,11 @@ class cnn(object):
 #global_step
 #
     def __set_global_step(self):
+        '''
+        args:
+        returns:    
+        raises:
+        '''
         self.global_step = tf.Variable(0, trainable=False, name='global_step')
         return self.global_step
 
@@ -195,6 +256,11 @@ class cnn(object):
 #l2_loss
 #
     def __set_l2loss(self):
+        '''
+        args:
+        returns:    
+        raises:
+        '''
         self.l2_loss = tf.constant(0.0)
         return self.l2_loss
 #
@@ -202,28 +268,58 @@ class cnn(object):
 #embedding
 #
     def __set_embedding_r(self):
+        '''
+        args:
+        returns:    
+        raises:
+        '''
         self.embedding_r = tf.get_variable("embeddings_r", shape=[self.config['vocab_size'], self.config['embedding_size']])
         return self.embedding_r
     
     def __set_embedding_expand_r(self,embedding_r):
+        '''
+        args:
+        returns:    
+        raises:
+        '''
         embedding_inputs_r = tf.nn.embedding_lookup(embedding_r, self.input_x)     
         self.embedding_expand_r = tf.expand_dims(embedding_inputs_r, -1)
         return self.embedding_expand_r
     
     def __set_embedding_s(self):
+        '''
+        args:
+        returns:    
+        raises:
+        '''
         self.embedding_s = tf.get_variable("embeddings_s", shape=[self.config['vocab_size'], self.config['embedding_size']],initializer=tf.constant_initializer(self.config['pre_trianing']))
         return self.embedding_s
     
     def __set_embedding_expand_s(self,embedding_s):
+        '''
+        args:
+        returns:    
+        raises:
+        '''
         embedding_inputs_s = tf.nn.embedding_lookup(embedding_s, self.input_x)
         self.embedding_expand_s = tf.expand_dims(embedding_inputs_s, -1)
         return self.embedding_expand_s
 
     def __set_embedding_2(self):
+        '''
+        args:
+        returns:    
+        raises:
+        '''
         self.embedding_2 = tf.concat([self.embedding_expand_r, self.embedding_expand_s], 3,name='embedding_2')
         return self.embedding_2
     
-    def __set_embedding(self):        
+    def __set_embedding(self):  
+        '''
+        args:
+        returns:    
+        raises:
+        '''      
         with tf.device('/cpu:0'), tf.name_scope('embedding'):     
             embedding_r = self.__set_embedding_r() 
             embedding_expand_r=self.__set_embedding_expand_r(embedding_r)	           
@@ -237,6 +333,11 @@ class cnn(object):
 #cbam
 #
     def __set_combined_static_and_dynamic_shape(self,tensor):
+        '''
+        args:
+        returns:    
+        raises:
+        '''
         static_tensor_shape = tensor.shape.as_list()
         dynamic_tensor_shape = tf.shape(tensor)
         combined_shape = []
@@ -248,6 +349,11 @@ class cnn(object):
         return combined_shape
     
     def __set_channel_weight_reshape(self,feature_map,feature_map_shape):
+        '''
+        args:
+        returns:    
+        raises:
+        '''
         channel_avg_weights = tf.nn.avg_pool(
             value=feature_map,
             ksize=[1, feature_map_shape[1], feature_map_shape[2], 1],
@@ -266,6 +372,11 @@ class cnn(object):
         return channel_w_reshape
 
     def __set_channel_attention(self,feature_map,feature_map_shape,channel_w_reshape,inner_units_ratio):
+        '''
+        args:
+        returns:    
+        raises:
+        '''
         fc_1 = tf.layers.dense(
             inputs=channel_w_reshape,
             units=feature_map_shape[3] * inner_units_ratio,
@@ -284,6 +395,11 @@ class cnn(object):
         return feature_map_with_channel_attention
     
     def __set_channel_wise_reshape(self,feature_map_shape,feature_map_with_channel_attention):
+        '''
+        args:
+        returns:    
+        raises:
+        '''
         channel_wise_avg_pooling = tf.reduce_mean(feature_map_with_channel_attention, axis=3)
         channel_wise_max_pooling = tf.reduce_max(feature_map_with_channel_attention, axis=3)
         channel_wise_avg_pooling = tf.reshape(channel_wise_avg_pooling,
@@ -296,6 +412,11 @@ class cnn(object):
         return channel_wise_pooling
 
     def __set_convolution(self,channel_wise_pooling,feature_map_with_channel_attention):
+        '''
+        args:
+        returns:    
+        raises:
+        '''
         spatial_attention = slim.conv2d(
             channel_wise_pooling,
             1,
@@ -308,6 +429,11 @@ class cnn(object):
         return feature_map_with_attention
     
     def __set_cbam_(self,index=1,inner_units_ratio=0.5):
+        '''
+        args:
+        returns:    
+        raises:
+        '''
         feature_map=self.embedding_2
         with tf.variable_scope("cbam_%s" % (index)):
             feature_map_shape = self.__set_combined_static_and_dynamic_shape(feature_map)
@@ -322,7 +448,12 @@ class cnn(object):
 #instance_param
 #cov_max_pool
 #
-    def __set_pool(self,filter_size):        
+    def __set_pool(self,filter_size):       
+        '''
+        args:
+        returns:    
+        raises:
+        ''' 
         filter_shape = [filter_size, self.config['embedding_size'], 2, self.config['num_filters']]
         w = tf.Variable(tf.truncated_normal(filter_shape, stddev=0.1), name="w")
         b = tf.Variable(tf.constant(0.1, shape=[self.config['num_filters']]), name="b")
@@ -332,15 +463,30 @@ class cnn(object):
         return pooled
 
     def __set_h_pool(self,pooled_outputs):
+        '''
+        args:
+        returns:    
+        raises:
+        '''
         self.h_pool = tf.concat(pooled_outputs, 3)
         return self.h_pool
 
     def __set_h_pool_flat(self):
+        '''
+        args:
+        returns:    
+        raises:
+        '''
         self.num_filter_total = self.config['num_filters'] * len(self.config['filter_sizes'])
         self.h_pool_flat = tf.reshape(self.h_pool, [-1, self.num_filter_total])
         return self.h_pool_flat
     
     def __set_cov_max_pool(self):  
+        '''
+        args:
+        returns:    
+        raises:
+        '''
         pooled_outputs = []
         for i, filter_size in enumerate(self.config['filter_sizes']):
                 with tf.name_scope("conv-maxpool-%s" % filter_size):
@@ -354,6 +500,11 @@ class cnn(object):
 #dropout
 #
     def __set_dropout(self):
+        '''
+        args:
+        returns:    
+        raises:
+        '''
         with tf.name_scope('dropout'):
             self.dropout = tf.nn.dropout(self.h_pool_flat, self.keep_prob)
             
@@ -362,6 +513,11 @@ class cnn(object):
 #output
 #
     def __set_output(self):
+        '''
+        args:
+        returns:    
+        raises:
+        '''
         with tf.name_scope('output'):
             w = tf.get_variable("w", shape=[self.num_filter_total, self.config['num_classes']],initializer=tf.contrib.layers.xavier_initializer())
             b = tf.Variable(tf.constant(0.1, shape=[self.config['num_classes']]), name='b')
@@ -376,6 +532,11 @@ class cnn(object):
 #loss
 #
     def __set_loss(self):
+        '''
+        args:
+        returns:    
+        raises:
+        '''
         with tf.name_scope('loss'):
             losses = tf.nn.softmax_cross_entropy_with_logits(logits=self.scores, labels=self.input_y)
             self.loss = tf.reduce_mean(losses)
@@ -385,6 +546,11 @@ class cnn(object):
 #accuracy
 #
     def __set_accuracy(self):
+        '''
+        args:
+        returns:    
+        raises:
+        '''
         with tf.name_scope('accuracy'):
             correct_predictions = tf.equal(self.predictions, tf.argmax(self.input_y, 1))
             self.accuracy = tf.reduce_mean(tf.cast(correct_predictions, 'float32'), name='accuracy')
@@ -394,6 +560,11 @@ class cnn(object):
 #optimizer
 #
     def __set_optimizer(self):
+        '''
+        args:
+        returns:    
+        raises:
+        '''
         with tf.name_scope('optimizer'):
             optimizer = tf.train.AdamOptimizer(self.config['lr'])
             gradients, variables = zip(*optimizer.compute_gradients(self.loss))

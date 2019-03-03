@@ -1,5 +1,10 @@
 #!/usr/bin/python
-# -*- coding: utf-8 -*-
+#-*- coding:utf-8 -*-
+'''
+@Time   : 2019/3/03
+@Author : ZJF
+@File   : tc_data.py
+'''
 import tensorflow.contrib.keras as kr
 import jieba.posseg as psg
 import numpy as np
@@ -21,10 +26,22 @@ from tc_datatype import *
 warnings.filterwarnings(action='ignore',category=UserWarning,module='gensim')
 
 class data(object):
+    '''
+    '''
     def __init__(self,config):
+        '''
+        args:
+        returns:    
+        raises:
+        '''
         self.config=config
 	
     def  load(self,param):
+        '''
+        args:
+        returns:    
+        raises:
+        '''
         if param['algorithmtype']==algorithmtype.cnn:
                 return self.__cnn(param)
         if param['algorithmtype']==algorithmtype.nb:
@@ -34,6 +51,11 @@ class data(object):
 
 ###############################	
     def __cnn(self,param):
+        '''
+        args:
+        returns:    
+        raises:
+        '''
         dt=None
         if param['worktype']==worktype.train:
             dt=self.__cnn_train(param)
@@ -46,6 +68,11 @@ class data(object):
         return dt
             
     def __nb(self,param):
+        '''
+        args:
+        returns:    
+        raises:
+        '''
         dt=None
         if param['worktype']==worktype.train:
             dt=self.__nb_train(param)
@@ -58,10 +85,20 @@ class data(object):
         return dt
     
     def __lr(self,param):
+        '''
+        args:
+        returns:    
+        raises:
+        '''
         return self.__nb(param)
 
 ###############################
     def __cnn_train(self,param):
+        '''
+        args:
+        returns:    
+        raises:
+        '''
         stopword=self.__get_stopword(param['path']['stopwordfile'])
         
         trainfile_string_param,valfile_string_param,stopwordfile_string_param={},{},{}
@@ -89,6 +126,11 @@ class data(object):
         return cnn_train_data
         
     def __cnn_test(self,param):
+        '''
+        args:
+        returns:    
+        raises:
+        '''
         testfile_string_param,stopwordfile_string_param={},{}
         testfile_string_param['file']=param['path']['testfile']
         stopwordfile_string_param['file']=param['path']['stopwordfile']
@@ -108,6 +150,11 @@ class data(object):
         return cnn_test_data
         
     def __cnn_pred(self,param):
+        '''
+        args:
+        returns:    
+        raises:
+        '''
         predfile_string_param,stopwordfile_string_param={},{}
         stopwordfile_string_param['file']=param['path']['stopwordfile']
         predfile_string_param['file']=param['path']['predfile'] if type(param['path']['predfile'])!=list else ''
@@ -129,6 +176,11 @@ class data(object):
         return cnn_pred_data
 
     def __nb_train(self,param):
+        '''
+        args:
+        returns:    
+        raises:
+        '''
         stopword=self.__get_stopword(param['path']['stopwordfile'])
         
         trainfile_string_param,stopwordfile_string_param={},{}
@@ -144,6 +196,11 @@ class data(object):
         return nb_train_data
         
     def __nb_test(self,param):
+        '''
+        args:
+        returns:    
+        raises:
+        '''
         stopword=self.__get_stopword(param['path']['stopwordfile'])
         
         testfile_string_param,stopwordfile_string_param={},{}
@@ -161,6 +218,11 @@ class data(object):
         return nb_test_data
 
     def __build_nblr_predcontent(self,obj,category):
+        '''
+        args:
+        returns:    
+        raises:
+        '''
         sentence=self.__gen_sentence(obj) if type(obj)!=list else obj
         predcontent=[]
         for st in sentence:            
@@ -170,6 +232,11 @@ class data(object):
         return predcontent
     
     def __nb_pred(self,param):
+        '''
+        args:
+        returns:    
+        raises:
+        '''
         stopword=self.__get_stopword(param['path']['stopwordfile'])
         predcontent=self.__build_nblr_predcontent(param['path']['predfile'],param['category'])
         
@@ -190,6 +257,11 @@ class data(object):
 		
 ###############################
     def __get_wv_word_id(self,wvpath,savepath):
+        '''
+        args:
+        returns:    
+        raises:
+        '''
         word=None
         if os.path.exists(savepath):
             sentence=self.__gen_sentence(savepath)
@@ -199,6 +271,11 @@ class data(object):
         return dict(zip(word, range(len(word))))
         
     def __get_wv_vector(self,wv_word_id,wvpath,savepath):
+        '''
+        args:
+        returns:    
+        raises:
+        '''
         if os.path.exists(savepath):
             with np.load(savepath) as data:
                 return data["embeddings"]
@@ -206,6 +283,11 @@ class data(object):
             return self.__wv2vector(wv_word_id,wvpath,savepath)
 
     def __get_XYidtable(self,obj,wv_word_id,wv_category_id,max_length,pred=False):
+        '''
+        args:
+        returns:    
+        raises:
+        '''
         data_id, label_id = [], []
         sentence=self.__gen_sentence(obj['file']) if os.path.isfile(obj['file']) else obj['string']
         for st in sentence:
@@ -220,6 +302,11 @@ class data(object):
         return x,y
 
     def __get_midbunch(self,stopwordobj,midpobj,savebunch,label,pos,savefile=None,pred=False):
+        '''
+        args:
+        returns:    
+        raises:
+        '''
         bunch=None
         if os.path.exists(savebunch):
             with open(savebunch, "rb") as f:
@@ -229,6 +316,11 @@ class data(object):
         return bunch
     
     def __get_tfidfbunch(self,stopwordobj,midbunch,tfidfbunchpath,tfidf_bunch=None):
+        '''
+        args:
+        returns:    
+        raises:
+        '''
         tfidfbunch=None
         if os.path.exists(tfidfbunchpath):
             with open(tfidfbunchpath, "rb") as f:
@@ -239,6 +331,11 @@ class data(object):
 
 ###############################
     def __file2midfile(self,obj,midpath,stopwordobj,pos,pred=False):   
+        '''
+        args:
+        returns:    
+        raises:
+        '''
         wordsentencelist=[]
         if os.path.exists(midpath):
             return wordsentencelist
@@ -257,6 +354,11 @@ class data(object):
         return wordsentencelist
     
     def __word2vec(self,path,savepath,param=None):
+        '''
+        args:
+        returns:    
+        raises:
+        '''
         if os.path.exists(savepath):
             return
         wordsentence=self.__gen_sentence(path)
@@ -272,6 +374,11 @@ class data(object):
         model.wv.save_word2vec_format(savepath, binary=False)
     
     def __wv2word(self,wvpath,savepath):
+        '''
+        args:
+        returns:    
+        raises:
+        '''
         word=[]
         sentence=self.__gen_sentence(wvpath)
         next(sentence)
@@ -284,6 +391,11 @@ class data(object):
         return w
     
     def __wv2vector(self,wv_word_id,wvpath,savepath):
+        '''
+        args:
+        returns:    
+        raises:
+        '''
         sentence=self.__gen_sentence(wvpath)
         size,dim=map(int,next(sentence).split(' '))
         embedding = np.zeros([len(wv_word_id),dim])
@@ -298,6 +410,11 @@ class data(object):
         return embedding
 
     def __file2midbunch(self,stopwordobj,obj,savebunch,label,pos,savefile,pred):
+        '''
+        args:
+        returns:    
+        raises:
+        '''
         bunch=self.__init_bunch(label)
         sw=self.__get_stopword(stopwordobj['file']) if os.path.isfile(stopwordobj['file']) else stopwordobj['string'] 
         sentence=self.__gen_sentence(obj['file']) if os.path.isfile(obj['file']) else obj['string']
@@ -314,6 +431,11 @@ class data(object):
         return bunch
             
     def __bunch2tfidfbunch(self,stopwordobj,bunch,tfidfbunchpath,tfidf_bunch):
+        '''
+        args:
+        returns:    
+        raises:
+        '''
         sw=self.__get_stopword(stopwordobj['file']) if os.path.isfile(stopwordobj['file']) else stopwordobj['string'] 
         tfidf_space = Bunch(target_name=bunch.target_name, labels=bunch.labels, tdm=[],vocabulary={})
         if tfidf_bunch is not None:
@@ -331,24 +453,49 @@ class data(object):
 		
 ###############################
     def __get_stopword(self,path):
+        '''
+        args:
+        returns:    
+        raises:
+        '''
         with open(path, 'r', encoding='utf-8') as f:
             return [sw.encode('utf-8').decode('utf-8-sig').replace(' ','').replace('\n', '') for sw in f.readlines()]
 
     def __gen_sentence(self,path):
+        '''
+        args:
+        returns:    
+        raises:
+        '''
         with open(path, 'r', encoding='utf-8') as f:
             for line in f:
                 yield line
 
     def __format_sentence(self,sentence,pred):
+        '''
+        args:
+        returns:    
+        raises:
+        '''
         st=sentence.encode('utf-8').decode('utf-8-sig').replace(' ','').replace('\r','').replace('\n', '')
         if pred:
             return st
         return st if '\t' in st else st[:2]+'\t'+st[2:]
 
     def __cut_sentence(self,sentence,pos):
+        '''
+        args:
+        returns:    
+        raises:
+        '''
         return psg.cut(sentence) if pos else jieba.cut(sentence)
     
     def __filter_word(self,wordlist,stopwordlist,pos):
+        '''
+        args:
+        returns:    
+        raises:
+        '''
         filter_list=[]
         for seg in wordlist:
             if not pos:
@@ -368,6 +515,11 @@ class data(object):
         return filter_list
 
     def __format_wordsentence(self,wordlist,pred,tosentence=True):
+        '''
+        args:
+        returns:    
+        raises:
+        '''
         if len(wordlist) <= 2:
             return None
         if pred:
@@ -379,14 +531,29 @@ class data(object):
             return cl.replace(',','')+'\t'+ct
 
     def __get_category_id(self,category):
+        '''
+        args:
+        returns:    
+        raises:
+        '''
         return dict(zip(category, range(len(category))))
 
     def __init_bunch(self,label):
+        '''
+        args:
+        returns:    
+        raises:
+        '''
         bunch = Bunch(target_name=[], labels=[],  contents=[])
         bunch.target_name.extend(label)
         return bunch
 
     def __add_bunch(self,bunch,label,content):
+        '''
+        args:
+        returns:    
+        raises:
+        '''
         bunch.labels.append(label)
         bunch.contents.append(content)
         return bunch

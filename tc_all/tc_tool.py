@@ -1,8 +1,14 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
+'''
+@Time   : 2019/3/03
+@Author : ZJF
+@File   : tc_tool.py
+'''
 import os
 import time
 import math
+import json
 import numpy as np
 from tc_datatype import *
 from datetime import timedelta
@@ -177,18 +183,87 @@ class tool(object):
         returns:    
         raises:
         '''
+        timestr=str(cls.format_time(cls.get_time()))
+        timestr_=str(cls.format_time(cls.get_time()))[:14]
         content=[]
         for item in arg:
             tmp='\n>>'+item
             content.insert(0,tmp)
-        content.append('\n>>=======================================================================================')
-        timestr=str(cls.format_time(cls.get_time()))[:14]
-        logfile=os.path.join('.\\','tc_log\\'+timestr+'.log')
+        content.insert(0,'\n>>'+timestr)
+        content.append('\n>>=======================================================================================')        
+        logfile=os.path.join('.\\','tc_log\\'+timestr_+'.log')
         logfile=logfile.replace(' ','').replace('/','\\').replace(':','')
         if not os.path.exists(os.path.dirname(logfile)):
             os.makedirs(os.path.dirname(logfile))
         with open(logfile, "a",encoding='utf-8') as fp:
-            fp.write(''.join(content))
+            fp.write(''.join(content).encode('utf-8').decode('utf-8-sig'))
             
-tool.log('wo','shi','zjf')
-        
+    @classmethod
+    def gen_sentence(cls,path):
+        '''
+        read file with lines
+        args:
+            file path
+        returns:
+            every lines string and type is generator
+        raises:
+        '''
+        with open(path, 'r', encoding='utf-8') as f:
+            for line in f:
+                yield line
+                
+    @classmethod    
+    def save_config(cls,dic):
+        configfile="./data/config.json"
+        if not os.path.exists(configfile):
+            os.makedirs(os.path.dirname(configfile))
+        with open(configfile,"w",encoding='utf-8') as f:
+             json.dump(dic,f)
+    @classmethod
+    def get_config(cls):
+        configfile="./data/config.json"
+        if not os.path.exists(configfile):
+            return None
+        with open(configfile,"r",encoding='utf-8') as f:
+             return json.load(f)
+            
+def test_json():
+    tool.save_config(dic = {
+        'debug':True,
+        'worktype':worktype.train,
+        'algorithmtype':algorithmtype,
+        'filenames':{
+                        'dir':'D:\\DocuemtManagement\\VSproject\\Python_Proj\\Py.Basic\\Text_Categorization_JF\\data_n\\6\\',
+                        'train':'train.txt',
+                        'trainmid':'trainmid.txt',
+                        'traindat':'train.dat',
+                        'traintf':'traintfidf.dat',
+                        'test':'test.txt',
+                        'testmid':'testmid.txt',
+                        'testdat':'test.dat',
+                        'testtf':'testtfidf.dat',
+                        'pred':'pred.txt',
+                        'predmid':'predmid.txt',
+                        'preddat':'pred.dat',
+                        'predtf':'predtfidf.dat',
+                        'val':'val.txt',
+                        'valmid':'valmid.txt',
+                        'wv':'wv.txt',
+                        'word':'wv_word.txt',
+                        'vector':'wv_vector.txt',
+                        'best':'best_validation',
+                        'board':'tensorboard',
+                        'stop':'stopword.txt'}
+                        })
+
+    '''config=tool.get_config()
+    for k in config:print(config)
+    for k,v in config['filenames'].items():
+        if k=='dir':
+            dir_=v
+        else:
+            config['filenames'][k]=dir_+v
+    for k in config:print(config)
+    tool.save_config(config)'''
+    
+#test_json()

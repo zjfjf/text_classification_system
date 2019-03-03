@@ -1,5 +1,10 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
+'''
+@Time   : 2019/3/03
+@Trimmer: ZJF
+@File   : tc_lr.py
+'''
 from sklearn.naive_bayes import MultinomialNB
 from sklearn.linear_model import LogisticRegression
 from sklearn.svm import SVC
@@ -12,11 +17,22 @@ from tc_data import *
 from tc_datatype import *
 
 class lr(object):
-
+    '''
+    '''
     def __init__(self,config):
+        '''
+        args:
+        returns:    
+        raises:
+        '''
         self.config=config
 
     def run(self,param):
+        '''
+        args:
+        returns:    
+        raises:
+        '''
         if param['data']['worktype']==worktype.train:
             return self.__do_train(param)
         elif param['data']['worktype']==worktype.test:
@@ -25,10 +41,20 @@ class lr(object):
             return self.__do_pred(param)
             
     def __do_train(self,param):
+        '''
+        args:
+        returns:    
+        raises:
+        '''
         traindata=data(None).load(param['data'])
         return traindata
     
     def __do_test(self,param):
+        '''
+        args:
+        returns:    
+        raises:
+        '''
         testdata=data(None).load(param['data'])
         clf=LogisticRegression(solver='lbfgs', multi_class = 'multinomial', max_iter=50)
         clf.fit(testdata['traintfidfbunch'].tdm, testdata['traintfidfbunch'].labels)
@@ -39,6 +65,11 @@ class lr(object):
         return report,mtx
     
     def __do_pred(self,param):
+        '''
+        args:
+        returns:    
+        raises:
+        '''
         preddata=data(None).load(param['data'])
         clf = LogisticRegression(solver='lbfgs', multi_class = 'multinomial', max_iter=50)
         clf.fit(preddata['traintfidfbunch'].tdm, preddata['traintfidfbunch'].labels)

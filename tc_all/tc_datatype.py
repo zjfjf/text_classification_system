@@ -1,5 +1,10 @@
 #!/usr/bin/python
-# -*- coding: utf-8 -*-
+#-*- coding:utf-8 -*-
+'''
+@Time   : 2019/3/03
+@Author : ZJF
+@File   : tc_datatype.py
+'''
 from enum import IntEnum
 
 class algorithmtype(IntEnum):
@@ -103,6 +108,16 @@ ex_categoriy={
                 '时政':'politics',
                 '汽车':'car',
                 '金融':'finance'}
+
+ex_categoriy_=[
+                u'IT',
+                u'体育',
+                u'军事',
+                u'娱乐',
+                u'文化',
+                u'时政',
+                u'汽车',
+                u'金融']
 
 ex_algorithms=[('卷积神经网络', 'cnn'), ('朴素贝叶斯', 'nb'), ('逻辑回归', 'lr'),('None', 'no')]
 
