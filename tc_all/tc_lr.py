@@ -47,7 +47,7 @@ class lr(object):
         raises:
         '''
         traindata=data(None).load(param['data'])
-        return traindata
+        return ''
     
     def __do_test(self,param):
         '''
