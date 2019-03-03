@@ -1,5 +1,10 @@
 #!/usr/bin/python
-# -*- coding: utf-8 -*-
+#-*- coding:utf-8 -*-
+'''
+@Time   : 2019/3/03
+@Author : ZJF
+@File   : tc_datatype.py
+'''
 from enum import IntEnum
 
 class algorithmtype(IntEnum):
@@ -73,26 +78,54 @@ ex_file_name={
 
 ex_test_file_name={
                 'dir':'',
-                'train':'train1.txt',
-                'trainmid':'trainmid1.txt',
+                'train':'train.txt',
+                'trainmid':'trainmid.txt',
                 'traindat':'train1.dat',
-                'traintf':'traintfidf1.dat',
-                'test':'test.txt',
-                'testmid':'testmid.txt',
-                'testdat':'test.dat',
-                'testtf':'testtfidf.dat',
+                'traintf':'traintfidf.dat',
+                'test':'test_.txt',
+                'testmid':'testmid_.txt',
+                'testdat':'test_.dat',
+                'testtf':'testtfidf_.dat',
                 'pred':'pred.txt',
                 'predmid':'predmid.txt',
                 'preddat':'pred.dat',
                 'predtf':'predtfidf.dat',
                 'val':'val.txt',
                 'valmid':'valmid.txt',
-                'wv':'wv1.txt',
-                'word':'wv_word1.txt',
-                'vector':'wv_vector1.txt',
-                'best':'best_validation1',
-                'board':'tensorboard1',
+                'wv':'wv.txt',
+                'word':'wv_word.txt',
+                'vector':'wv_vector.txt',
+                'best':'best_validation',
+                'board':'tensorboard',
                 'stop':'stopword.txt'}
+
+ex_categoriy={
+                'IT':'IT',
+                '体育':'sports',
+                '军事':'military',
+                '娱乐':'recreation',
+                '文化':'culture',
+                '时政':'politics',
+                '汽车':'car',
+                '金融':'finance'}
+
+ex_categoriy_=[
+                u'IT',
+                u'体育',
+                u'军事',
+                u'娱乐',
+                u'文化',
+                u'时政',
+                u'汽车',
+                u'金融']
+
+ex_algorithms=[('卷积神经网络', 'cnn'), ('朴素贝叶斯', 'nb'), ('逻辑回归', 'lr'),('None', 'no')]
+
+ex_evaluatitem=['precision','recall','f1-score','support']
+
+ex_statisticsitem=['micro avg','macro avg','weighted avg ']
+
+ex_colors = ['red','gold','green','blue','yellow','pink','brown','purple','gray','greenyellow','olive']
 
 ex_dt_cnn_train_data={
                 'trainXYid_table':None,
