@@ -1,7 +1,7 @@
 # text_classification_system
 application of basic algorithmic model of cnn,nb and lr
 ## 20190301-03
-学习设计基于循环卷积网络，朴素贝叶斯，逻辑回归算法模型的文本分类系统
+学习设计基于卷积神经网络，朴素贝叶斯，逻辑回归算法模型的文本分类系统
 ### 1.参考：
 https://github.com/gaussic/text-classification-cnn-rnn 及所提及资料<br>	
 [wxid_b8lmlv1vdb2|322](https://github.com/zjfjf/text_classification_system/blob/master/tc_all/old20190213) 提供相关数据及程序素材
@@ -25,7 +25,7 @@ https://github.com/gaussic/text-classification-cnn-rnn 及所提及资料<br>
 * tensorflow 1.12.0
 * matplotlib 3.0.2 
 ### 4.功能效果：
-* 循环卷积神经网络<br>
+* 卷积神经网络<br>
   * 测试(precision-recall-F1-score)<br>
 ![](https://github.com/zjfjf/text_classification_system/blob/master/tc_all/data/example/ex_cnn_test_mtx.png "测试(precision-recall-F1-score)")<br>
   * 测试(confusion matrix)<br>
