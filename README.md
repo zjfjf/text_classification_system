@@ -25,17 +25,20 @@ https://github.com/gaussic/text-classification-cnn-rnn 及所提及资料<br>
 * tensorflow 1.12.0
 * matplotlib 3.0.2
 ### 后续添加详细说明  
-### 其它：  
-`程序设计过于“简陋”，接下来会进行“颠覆性”重构，或者重新设计：`:rage:
-* 注意内聚耦合度，可维护性，可扩展性
-* 优化时间空间复杂度，提高性能
-* 提高变量名方法名相关数据接口设计可读性，统一性
-* 提高类及方法体量可观性
-* 提高各个模块间，类间，方法间逻辑清晰度，分配合理性
-* 使用消息队列沟通UI模块与数据模块，实现操作细节显示
-* 使用并发机制，实现多任务独立安全运行
-* 使用异常机制
-* 设计实现前后端分离		
-* 重新设计UI结构，寻找/构造高级UI组件,实现复杂数据结构显示，满足数据report可视化需要
-* 调整各算法参数，使其性能最佳
-* 补充完善程序相关说明文档
+### 4.功能：
+* 循环卷积神经网络
+[测试](/tc_all/data/example/ex_cnn_test_mtx.png) 
+[测试](/tc_all/data/example/ex_cnn_test_report.png) 
+[预测](/tc_all/data/example/ex_cnn_pred.png) 	
+[预测log](/tc_all/data/example/ex_cnn_pred_log.png) 	
+* 贝叶斯
+[测试(precision-recall-F1-score)](/tc_all/data/example/ex_nb_test_mtx.png) 
+[测试(confusion matrix)](/tc_all/data/example/ex_nb_test_report.png) 
+[预测](/tc_all/data/example/ex_nb_pred.png) 	
+[预测日志log](/tc_all/data/example/ex_nb_pred_log.png) 	
+* 逻辑回归
+[测试](/tc_all/data/example/ex_lr_test_mtx.png) 
+[测试](/tc_all/data/example/ex_lr_test_report.png) 
+[预测](/tc_all/data/example/ex_lr_pred.png) 	
+[预测log](/tc_all/data/example/ex_lr_pred_log.png) 	
+
