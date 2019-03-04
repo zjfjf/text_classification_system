@@ -1,5 +1,5 @@
 # text_classification_system
-application of basic algorithmic model of cnn,nb and lr
+application basic of algorithmic model of cnn,nb and lr
 ## 20190301-03
 学习设计基于卷积神经网络，朴素贝叶斯，逻辑回归算法模型的文本分类系统
 ### 1.参考：
