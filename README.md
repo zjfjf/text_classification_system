@@ -37,7 +37,7 @@ https://github.com/gaussic/text-classification-cnn-rnn 及所提及资料<br>
 * 贝叶斯<br>
   * 测试(precision-recall-F1-score)<br>
 ![](https://github.com/zjfjf/text_classification_system/blob/master/tc_all/data/example//ex_nb_test_mtx.png "测试(precision-recall-F1-score)")<br>
-  * 测试(confusion matrix)e<br>
+  * 测试(confusion matrix)<br>
 ![](https://github.com/zjfjf/text_classification_system/blob/master/tc_all/data/example/ex_nb_test_report.png "测试(confusion matrix)")<br>
   * 预测(proportion)<br>
 ![](https://github.com/zjfjf/text_classification_system/blob/master/tc_all/data/example/ex_nb_pred.png "预测(proportion)")<br>
