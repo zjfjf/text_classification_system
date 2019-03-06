@@ -1,6 +1,6 @@
 # text_classification_system
 application basic of algorithmic model of cnn,nb and lr
-## 20190301-03
+## 20190301-06
 学习设计基于卷积神经网络，朴素贝叶斯，逻辑回归算法模型的文本分类系统
 ### 1.参考：
 https://github.com/gaussic/text-classification-cnn-rnn 及所提及资料<br>	
@@ -45,7 +45,7 @@ https://github.com/gaussic/text-classification-cnn-rnn 及所提及资料<br>
     * stopword.txt
     * wv.txt
     * wv_word.txt
-    * wv_vector.txt
+    * wv_vector.npz
     * best_validation.data-xxxx-of-xxxxx
     * best_validation.index
     * best_validation.meta
@@ -62,7 +62,7 @@ https://github.com/gaussic/text-classification-cnn-rnn 及所提及资料<br>
     * test.txt或者testmid.txt
     * stopword.txt
     * wv_word.txt
-    * wv_vector.txt
+    * wv_vector.npz
     * best_validation.xxx
     * checkpoint
   * 1.打开config.json文件修改"debug": true ->"debug": False
@@ -79,7 +79,7 @@ https://github.com/gaussic/text-classification-cnn-rnn 及所提及资料<br>
     * stopword.txt
     * wv.txt
     * wv_word.txt
-    * wv_vector.txt
+    * wv_vector.npz
     * best_validation.data-xxxx-of-xxxxx
     * best_validation.index
     * best_validation.meta
@@ -90,7 +90,7 @@ https://github.com/gaussic/text-classification-cnn-rnn 及所提及资料<br>
     * pred.txt或者predmid.txt
     * stopword.txt
     * wv_word.txt
-    * wv_vector.txt
+    * wv_vector.npz
     * best_validation.xxx
     * checkpoint
   * 1.打开config.json文件修改"debug": true ->"debug": False
@@ -107,7 +107,7 @@ https://github.com/gaussic/text-classification-cnn-rnn 及所提及资料<br>
     * stopword.txt
     * wv.txt
     * wv_word.txt
-    * wv_vector.txt
+    * wv_vector.npz
     * best_validation.data-xxxx-of-xxxxx
     * best_validation.index
     * best_validation.meta
@@ -117,7 +117,7 @@ https://github.com/gaussic/text-classification-cnn-rnn 及所提及资料<br>
   * 前提：准备文件：
     * stopword.txt
     * wv_word.txt
-    * wv_vector.txt
+    * wv_vector.npz
     * best_validation.xxx
     * checkpoint
   * 1.打开config.json文件修改"debug": true ->"debug": False
@@ -131,7 +131,7 @@ https://github.com/gaussic/text-classification-cnn-rnn 及所提及资料<br>
     * stopword.txt
     * wv.txt
     * wv_word.txt
-    * wv_vector.txt
+    * wv_vector.npz
     * best_validation.data-xxxx-of-xxxxx
     * best_validation.index
     * best_validation.meta
